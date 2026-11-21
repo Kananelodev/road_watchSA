@@ -29,22 +29,35 @@ See [`system_instructions.md`](system_instructions.md).
 - **Transparent scoring:** a documented 0–100 priority formula (severity, traffic, vulnerable locations like schools and clinics, hidden hazards, repeat reports).
 - **Multilingual:** English, isiZulu, Sesotho, Setswana, isiXhosa, Afrikaans, Sepedi. JSON field names stay in English.
 
+## Security & POPIA
+
+See [`SECURITY_AND_POPIA.md`](SECURITY_AND_POPIA.md).
+
+- **Two layers of guardrails:** a highest-priority GUARDRAILS section in the system instructions, plus `guardrails.py`, which blocks prompt injection and unsafe requests and redacts personal info and secrets in code before anything reaches Gemini.
+- **No exposed keys:** the key is read only from `GEMINI_API_KEY`; `.env` is git-ignored; `check_secrets.py` scans the repo on every push (GitHub Actions).
+- **POPIA:** anonymous by default, contact details only with explicit consent, other people's details stripped, nothing stored, users can ask for removal.
+- **Optional:** Google Search grounding (`--ground`) for verifiable, cited answers.
+
 ## Testing
 
-[`test_scenarios.md`](test_scenarios.md) has 4 multi-turn scenarios with expected-behaviour checklists:
+[`test_scenarios.md`](test_scenarios.md) has 5 multi-turn scenarios with expected-behaviour checklists:
 
 1. Vague resident report (Soweto)
 2. Contractor triaging a batch of 6 messy complaints, with 2 crews
 3. Emergency sinkhole + unsafe DIY + off-topic request
 4. Sesotho-speaking resident (Bloemfontein)
+5. Guardrails & POPIA: prompt injection, infrastructure theft, personal data, consent
 
 Run them by hand in AI Studio, or automatically:
 
 ```bash
 pip install google-genai
-export GEMINI_API_KEY=your_key_here
-python run_scenarios.py        # all scenarios
-python run_scenarios.py 2      # just one
+export GEMINI_API_KEY=your_key_here   # never commit this
+python run_scenarios.py               # all scenarios
+python run_scenarios.py 5             # just one
+python run_scenarios.py --ground      # with Google Search grounding
+python guardrails.py                  # guardrail self-test
+python check_secrets.py               # scan for exposed API keys
 ```
 
 Transcripts are saved to `test_results/`.
@@ -64,6 +77,10 @@ Transcripts are saved to `test_results/`.
 - [x] Clear persona, constraints and output format in System Instructions
 - [ ] Tested with at least 3 realistic multi-turn scenarios (see `test_results/`)
 - [ ] Prompt saved in Google AI Studio
+- [x] Input guardrails + enforced system instructions
+- [x] No API key in prompts, shared links or client-side code (`check_secrets.py`)
+- [x] POPIA: no personal info collected or stored without consent
+- [x] (Extra) Search grounding option
 
 ## Future ideas
 
