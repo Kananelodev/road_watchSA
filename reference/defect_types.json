@@ -1,0 +1,86 @@
+{
+  "_about": "Allowed defect_type values for RoadWatch SA reports.",
+  "defect_types": [
+    {
+      "id": "pothole",
+      "label": "Pothole",
+      "examples": [
+        "hole in the tar",
+        "mokoti",
+        "umgodi"
+      ],
+      "default_owner": "roads"
+    },
+    {
+      "id": "sinkhole",
+      "label": "Sinkhole / road collapse",
+      "examples": [
+        "road caved in",
+        "ground sinking"
+      ],
+      "default_owner": "roads + water",
+      "always_severity": 5
+    },
+    {
+      "id": "cracked_surface",
+      "label": "Cracked surface",
+      "examples": [
+        "alligator cracking",
+        "edge break"
+      ],
+      "default_owner": "roads"
+    },
+    {
+      "id": "missing_manhole_cover",
+      "label": "Missing or broken manhole cover",
+      "examples": [
+        "open drain hole",
+        "stolen cover"
+      ],
+      "default_owner": "water & sanitation",
+      "always_severity": 5
+    },
+    {
+      "id": "road_markings",
+      "label": "Faded or missing road markings",
+      "examples": [
+        "zebra crossing gone",
+        "no lines"
+      ],
+      "default_owner": "roads"
+    },
+    {
+      "id": "traffic_light",
+      "label": "Faulty traffic light (robot)",
+      "examples": [
+        "robot not working",
+        "robot flashing"
+      ],
+      "default_owner": "roads / traffic"
+    },
+    {
+      "id": "stormwater_drain",
+      "label": "Blocked or damaged stormwater drain",
+      "examples": [
+        "road floods when it rains",
+        "drain grid missing"
+      ],
+      "default_owner": "roads / stormwater"
+    },
+    {
+      "id": "water_leak",
+      "label": "Water leak damaging the road",
+      "examples": [
+        "burst pipe under road",
+        "water bubbling through tar"
+      ],
+      "default_owner": "water & sanitation"
+    },
+    {
+      "id": "other",
+      "label": "Other road defect",
+      "examples": [],
+      "default_owner": "roads"
+    }
+  ]
+}

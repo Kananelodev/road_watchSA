@@ -1,0 +1,401 @@
+{
+  "type": "object",
+  "properties": {
+    "mode": {
+      "type": "string",
+      "enum": [
+        "resident",
+        "responder",
+        "refusal",
+        "clarify"
+      ]
+    },
+    "reply": {
+      "type": "string",
+      "description": "The conversational message shown to the user, in their language. Summary + next steps, or follow-up questions (max 2), or a short refusal."
+    },
+    "missing_fields": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Required report fields still unknown."
+    },
+    "report": {
+      "type": "object",
+      "nullable": true,
+      "description": "Only filled when all required fields are known. Otherwise null.",
+      "properties": {
+        "defect_type": {
+          "type": "string",
+          "enum": [
+            "pothole",
+            "sinkhole",
+            "cracked_surface",
+            "missing_manhole_cover",
+            "road_markings",
+            "traffic_light",
+            "stormwater_drain",
+            "water_leak",
+            "other"
+          ]
+        },
+        "location": {
+          "type": "object",
+          "properties": {
+            "description": {
+              "type": "string",
+              "description": "Street, intersection, suburb or landmark. Never a private person's house."
+            },
+            "city": {
+              "type": "string",
+              "nullable": true
+            },
+            "ward": {
+              "type": "string",
+              "nullable": true
+            },
+            "landmark": {
+              "type": "string",
+              "nullable": true
+            },
+            "gps": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          "required": [
+            "description"
+          ]
+        },
+        "size_estimate": {
+          "type": "string",
+          "nullable": true
+        },
+        "depth_estimate": {
+          "type": "string",
+          "nullable": true
+        },
+        "hazard_factors": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "high_traffic",
+              "medium_traffic",
+              "low_traffic",
+              "near_school",
+              "near_clinic",
+              "near_hospital",
+              "near_taxi_rank",
+              "pedestrian_crossing",
+              "water_filled",
+              "unlit",
+              "on_bend",
+              "blind_rise",
+              "caused_vehicle_damage",
+              "caused_injury"
+            ]
+          }
+        },
+        "duration_reported": {
+          "type": "string",
+          "nullable": true
+        },
+        "impact": {
+          "type": "string",
+          "nullable": true
+        },
+        "photo_attached": {
+          "type": "boolean"
+        },
+        "severity": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 5
+        },
+        "priority_score": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "priority_band": {
+          "type": "string",
+          "enum": [
+            "Urgent",
+            "High",
+            "Medium",
+            "Low"
+          ]
+        },
+        "priority_reason": {
+          "type": "string"
+        },
+        "suggested_repair": {
+          "type": "string",
+          "nullable": true
+        },
+        "report_count": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "language": {
+          "type": "string",
+          "description": "ISO code, e.g. en, zu, st"
+        },
+        "contact_consent": {
+          "type": "boolean",
+          "description": "true ONLY if the user explicitly agreed to share contact details"
+        }
+      },
+      "required": [
+        "defect_type",
+        "location",
+        "hazard_factors",
+        "severity",
+        "priority_score",
+        "priority_band",
+        "priority_reason",
+        "report_count",
+        "language",
+        "contact_consent"
+      ],
+      "propertyOrdering": [
+        "defect_type",
+        "location",
+        "size_estimate",
+        "depth_estimate",
+        "hazard_factors",
+        "duration_reported",
+        "impact",
+        "photo_attached",
+        "severity",
+        "priority_score",
+        "priority_band",
+        "priority_reason",
+        "suggested_repair",
+        "report_count",
+        "language",
+        "contact_consent"
+      ]
+    },
+    "triage": {
+      "type": "array",
+      "description": "Responder mode only: ranked, de-duplicated reports. Empty otherwise.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "rank": {
+            "type": "integer"
+          },
+          "report": {
+            "type": "object",
+            "description": "Only filled when all required fields are known. Otherwise null.",
+            "properties": {
+              "defect_type": {
+                "type": "string",
+                "enum": [
+                  "pothole",
+                  "sinkhole",
+                  "cracked_surface",
+                  "missing_manhole_cover",
+                  "road_markings",
+                  "traffic_light",
+                  "stormwater_drain",
+                  "water_leak",
+                  "other"
+                ]
+              },
+              "location": {
+                "type": "object",
+                "properties": {
+                  "description": {
+                    "type": "string",
+                    "description": "Street, intersection, suburb or landmark. Never a private person's house."
+                  },
+                  "city": {
+                    "type": "string",
+                    "nullable": true
+                  },
+                  "ward": {
+                    "type": "string",
+                    "nullable": true
+                  },
+                  "landmark": {
+                    "type": "string",
+                    "nullable": true
+                  },
+                  "gps": {
+                    "type": "string",
+                    "nullable": true
+                  }
+                },
+                "required": [
+                  "description"
+                ]
+              },
+              "size_estimate": {
+                "type": "string",
+                "nullable": true
+              },
+              "depth_estimate": {
+                "type": "string",
+                "nullable": true
+              },
+              "hazard_factors": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "enum": [
+                    "high_traffic",
+                    "medium_traffic",
+                    "low_traffic",
+                    "near_school",
+                    "near_clinic",
+                    "near_hospital",
+                    "near_taxi_rank",
+                    "pedestrian_crossing",
+                    "water_filled",
+                    "unlit",
+                    "on_bend",
+                    "blind_rise",
+                    "caused_vehicle_damage",
+                    "caused_injury"
+                  ]
+                }
+              },
+              "duration_reported": {
+                "type": "string",
+                "nullable": true
+              },
+              "impact": {
+                "type": "string",
+                "nullable": true
+              },
+              "photo_attached": {
+                "type": "boolean"
+              },
+              "severity": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 5
+              },
+              "priority_score": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 100
+              },
+              "priority_band": {
+                "type": "string",
+                "enum": [
+                  "Urgent",
+                  "High",
+                  "Medium",
+                  "Low"
+                ]
+              },
+              "priority_reason": {
+                "type": "string"
+              },
+              "suggested_repair": {
+                "type": "string",
+                "nullable": true
+              },
+              "report_count": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "language": {
+                "type": "string",
+                "description": "ISO code, e.g. en, zu, st"
+              },
+              "contact_consent": {
+                "type": "boolean",
+                "description": "true ONLY if the user explicitly agreed to share contact details"
+              }
+            },
+            "required": [
+              "defect_type",
+              "location",
+              "hazard_factors",
+              "severity",
+              "priority_score",
+              "priority_band",
+              "priority_reason",
+              "report_count",
+              "language",
+              "contact_consent"
+            ],
+            "propertyOrdering": [
+              "defect_type",
+              "location",
+              "size_estimate",
+              "depth_estimate",
+              "hazard_factors",
+              "duration_reported",
+              "impact",
+              "photo_attached",
+              "severity",
+              "priority_score",
+              "priority_band",
+              "priority_reason",
+              "suggested_repair",
+              "report_count",
+              "language",
+              "contact_consent"
+            ]
+          },
+          "cluster": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "required": [
+          "rank",
+          "report"
+        ]
+      }
+    },
+    "data_gaps": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "item": {
+            "type": "string"
+          },
+          "question_for_reporter": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "item",
+          "question_for_reporter"
+        ]
+      }
+    },
+    "safety_alert": {
+      "type": "string",
+      "nullable": true,
+      "description": "Set when someone may be in danger: tell them to call 112 / 10177."
+    }
+  },
+  "required": [
+    "mode",
+    "reply",
+    "missing_fields",
+    "report",
+    "triage",
+    "data_gaps",
+    "safety_alert"
+  ],
+  "propertyOrdering": [
+    "mode",
+    "safety_alert",
+    "reply",
+    "missing_fields",
+    "report",
+    "triage",
+    "data_gaps"
+  ]
+}

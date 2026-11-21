@@ -1,0 +1,87 @@
+{
+  "_about": "Severity and priority scoring used by RoadWatch SA. Keep in sync with system_instructions.md.",
+  "size_scale": [
+    "smaller than a dinner plate",
+    "dinner plate size",
+    "car-tyre size",
+    "bigger than a car tyre",
+    "takes up a whole lane"
+  ],
+  "depth_scale": [
+    "surface only",
+    "ankle-deep",
+    "shin-deep",
+    "knee-deep or deeper"
+  ],
+  "severity": {
+    "1": "Cosmetic: cracks, faded markings, no driving impact",
+    "2": "Minor: small, shallow pothole on a low-traffic street",
+    "3": "Moderate: tyre-size or ankle-to-shin depth; drivers swerve",
+    "4": "Major: bigger than a tyre, shin-plus depth, vehicle damage or unsafe swerving",
+    "5": "Critical: sinkhole, collapse, missing manhole cover, caused injury"
+  },
+  "priority_score": {
+    "severity_multiplier": 12,
+    "traffic": {
+      "high": 15,
+      "medium": 8,
+      "low": 3
+    },
+    "vulnerable_location_bonus": 10,
+    "vulnerable_locations": [
+      "school",
+      "clinic",
+      "hospital",
+      "taxi_rank",
+      "pedestrian_crossing"
+    ],
+    "hidden_hazard_bonus": 8,
+    "hidden_hazards": [
+      "water_filled",
+      "unlit",
+      "on_bend",
+      "blind_rise"
+    ],
+    "repeat_report_bonus_each": 2,
+    "repeat_report_bonus_max": 7,
+    "max": 100
+  },
+  "priority_bands": [
+    {
+      "band": "Urgent",
+      "min": 80,
+      "target": "within 24-48h"
+    },
+    {
+      "band": "High",
+      "min": 55,
+      "target": "within 1 week"
+    },
+    {
+      "band": "Medium",
+      "min": 30,
+      "target": "within 1 month"
+    },
+    {
+      "band": "Low",
+      "min": 0,
+      "target": "scheduled maintenance"
+    }
+  ],
+  "hazard_factor_values": [
+    "high_traffic",
+    "medium_traffic",
+    "low_traffic",
+    "near_school",
+    "near_clinic",
+    "near_hospital",
+    "near_taxi_rank",
+    "pedestrian_crossing",
+    "water_filled",
+    "unlit",
+    "on_bend",
+    "blind_rise",
+    "caused_vehicle_damage",
+    "caused_injury"
+  ]
+}

@@ -1,0 +1,65 @@
+{
+  "_about": "Metros covered. Contact numbers are deliberately null: never invent them. Direct users to the official website, or use search grounding and cite an official source. Verify URLs before relying on them.",
+  "municipalities": [
+    {
+      "name": "City of Johannesburg",
+      "province": "Gauteng",
+      "road_authority": "Johannesburg Roads Agency (JRA)",
+      "website": "https://www.joburg.org.za",
+      "contact_number": null
+    },
+    {
+      "name": "City of Tshwane",
+      "province": "Gauteng",
+      "road_authority": "City of Tshwane Roads and Transport",
+      "website": "https://www.tshwane.gov.za",
+      "contact_number": null
+    },
+    {
+      "name": "City of Ekurhuleni",
+      "province": "Gauteng",
+      "road_authority": "Ekurhuleni Roads and Stormwater",
+      "website": "https://www.ekurhuleni.gov.za",
+      "contact_number": null
+    },
+    {
+      "name": "City of Cape Town",
+      "province": "Western Cape",
+      "road_authority": "Cape Town Urban Mobility",
+      "website": "https://www.capetown.gov.za",
+      "contact_number": null
+    },
+    {
+      "name": "eThekwini Municipality (Durban)",
+      "province": "KwaZulu-Natal",
+      "road_authority": "eThekwini Roads",
+      "website": "https://www.durban.gov.za",
+      "contact_number": null
+    },
+    {
+      "name": "Mangaung Metropolitan Municipality (Bloemfontein)",
+      "province": "Free State",
+      "road_authority": "Mangaung Roads and Stormwater",
+      "website": "https://www.mangaung.co.za",
+      "contact_number": null
+    },
+    {
+      "name": "Nelson Mandela Bay Municipality",
+      "province": "Eastern Cape",
+      "road_authority": "NMB Roads and Stormwater",
+      "website": "https://www.nelsonmandelabay.gov.za",
+      "contact_number": null
+    },
+    {
+      "name": "Buffalo City Metropolitan Municipality",
+      "province": "Eastern Cape",
+      "road_authority": "BCMM Roads",
+      "website": "https://www.buffalocity.gov.za",
+      "contact_number": null
+    }
+  ],
+  "emergency": {
+    "mobile_emergency": "112",
+    "ambulance": "10177"
+  }
+}

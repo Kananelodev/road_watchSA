@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RoadWatch SA — GDG Johannesburg Buildathon</title>
+<meta name="description" content="An AI agent built in Google AI Studio that turns pothole complaints into structured, prioritised repair reports for South African municipalities and contractors.">
+<style>
+  :root{--bg:#14140f;--panel:#1e1e17;--line:#33332a;--text:#f2efe4;--muted:#b3ae9c;--accent:#f5c518;--urgent:#ff6b4a;--ok:#7bd88f;}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--text);font:16px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;-webkit-text-size-adjust:100%}
+  .wrap{max-width:860px;margin:0 auto;padding:0 18px}
+  header{border-bottom:6px solid var(--accent);background:repeating-linear-gradient(-45deg,var(--accent) 0 14px,#111 14px 28px) bottom/100% 6px no-repeat}
+  header .wrap{padding:44px 18px 36px}
+  .tag{display:inline-block;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--bg);background:var(--accent);padding:3px 8px;border-radius:3px;font-weight:700}
+  h1{font-size:clamp(34px,8vw,56px);line-height:1.05;margin:14px 0 10px;letter-spacing:-.02em}
+  h2{font-size:22px;margin:40px 0 12px;border-left:4px solid var(--accent);padding-left:10px}
+  p.lead{font-size:clamp(17px,4.4vw,20px);color:var(--muted);margin:0 0 22px;max-width:640px}
+  .btns{display:flex;flex-wrap:wrap;gap:10px}
+  a.btn{display:inline-block;padding:12px 16px;border-radius:6px;font-weight:700;text-decoration:none;min-height:44px}
+  a.primary{background:var(--accent);color:#14140f}
+  a.ghost{border:1px solid var(--line);color:var(--text)}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:16px}
+  .card h3{margin:0 0 6px;font-size:17px}
+  .card p,.card li{color:var(--muted);margin:0;font-size:15px}
+  ul{padding-left:20px;margin:6px 0}
+  .chat{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:14px;display:flex;flex-direction:column;gap:10px}
+  .msg{max-width:88%;padding:10px 12px;border-radius:12px;font-size:15px}
+  .u{align-self:flex-end;background:#3a3420;border-bottom-right-radius:3px}
+  .a{align-self:flex-start;background:#26261e;border:1px solid var(--line);border-bottom-left-radius:3px}
+  .who{font-size:11px;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);display:block;margin-bottom:2px}
+  pre{background:#0d0d0a;border:1px solid var(--line);border-radius:8px;padding:14px;overflow-x:auto;font-size:13px;line-height:1.5;margin:0}
+  code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+  table{width:100%;border-collapse:collapse;font-size:15px}
+  th,td{text-align:left;padding:9px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{color:var(--muted);font-weight:600;font-size:13px;text-transform:uppercase;letter-spacing:.06em}
+  .tbl{overflow-x:auto}
+  .pill{display:inline-block;padding:1px 8px;border-radius:99px;font-size:12px;font-weight:700}
+  .urgent{background:var(--urgent);color:#1a0d08}.high{background:var(--accent);color:#14140f}
+  .check{color:var(--ok);font-weight:700}
+  footer{color:var(--muted);font-size:14px;padding:40px 0 60px;border-top:1px solid var(--line);margin-top:48px}
+  a{color:var(--accent)}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <span class="tag">GDG Johannesburg Buildathon</span>
+    <h1>RoadWatch SA</h1>
+    <p class="lead">An AI agent built in Google AI Studio that turns vague pothole complaints into structured, prioritised repair reports for municipalities and road contractors.</p>
+    <div class="btns">
+      <a class="btn primary" id="studio-link" href="https://github.com/Kananelodev/road_watchSA#setup-in-google-ai-studio">Open the agent in AI Studio</a>
+      <a class="btn ghost" href="https://github.com/Kananelodev/road_watchSA">View the repo</a>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <h2>The problem</h2>
+  <p>Potholes burst tyres, damage cars and push taxis into oncoming lanes. Residents complain on WhatsApp ("massive hole near the Engen"), but those reports are vague and duplicated, and road crews can't tell which hole to fix first.</p>
+
+  <h2>What the agent does</h2>
+  <div class="grid">
+    <div class="card"><h3>Resident mode</h3><p>Asks up to 2 quick questions at a time (where, how big, how dangerous) in English, isiZulu, Sesotho and more, then writes a complete report with a danger score.</p></div>
+    <div class="card"><h3>Responder mode</h3><p>Takes a batch of messy complaints, merges duplicates, ranks them 0–100, groups nearby jobs into one crew trip, and flags missing details.</p></div>
+    <div class="card"><h3>Structured output</h3><p>Every reply can be one JSON object matching a strict schema, ready for a tracker, spreadsheet or map.</p></div>
+  </div>
+
+  <h2>Example conversation</h2>
+  <div class="chat">
+    <div class="msg u"><span class="who">Resident</span>There's a massive pothole near my place, nobody cares.</div>
+    <div class="msg a"><span class="who">RoadWatch SA</span>That's frustrating. Where is it? A street name and a nearby landmark (shop, garage, taxi rank) is perfect.</div>
+    <div class="msg u"><span class="who">Resident</span>Vilakazi St, Orlando West, by the Engen near the taxi rank. Bigger than a tyre, full of water when it rains.</div>
+    <div class="msg a"><span class="who">RoadWatch SA</span><span class="pill urgent">Urgent · 81</span> Major pothole on a busy taxi route, hidden by water. Here's your report; submit it to the JRA and your ward councillor.</div>
+  </div>
+
+  <h2>Structured JSON output</h2>
+  <pre><code>{
+  "mode": "resident",
+  "safety_alert": null,
+  "reply": "Major pothole on a busy taxi route…",
+  "missing_fields": [],
+  "report": {
+    "defect_type": "pothole",
+    "location": { "description": "Vilakazi St, Orlando West, Soweto",
+                  "city": "Johannesburg", "landmark": "Engen garage" },
+    "size_estimate": "bigger than a car tyre",
+    "hazard_factors": ["high_traffic", "near_taxi_rank", "water_filled"],
+    "severity": 4,
+    "priority_score": 81,
+    "priority_band": "Urgent",
+    "report_count": 1,
+    "language": "en",
+    "contact_consent": false
+  },
+  "triage": [],
+  "data_gaps": []
+}</code></pre>
+
+  <h2>Reference files</h2>
+  <div class="tbl"><table>
+    <tr><th>File</th><th>Purpose</th></tr>
+    <tr><td><code>defect_types.json</code></td><td>Allowed defect types, everyday examples, and which ones are always critical</td></tr>
+    <tr><td><code>severity_rubric.json</code></td><td>Size and depth scales, the 0–100 priority formula and bands</td></tr>
+    <tr><td><code>municipalities.json</code></td><td>Metros, road authorities and official websites (no invented phone numbers)</td></tr>
+    <tr><td><code>roadwatch_response_schema.json</code></td><td>The JSON schema every structured reply must match</td></tr>
+  </table></div>
+
+  <h2>Tested scenarios</h2>
+  <div class="tbl"><table>
+    <tr><th>#</th><th>Scenario</th><th>Tests</th></tr>
+    <tr><td>1</td><td>Vague resident report (Soweto)</td><td>Smart follow-ups, complete report</td></tr>
+    <tr><td>2</td><td>Contractor with 6 messy complaints, 2 crews</td><td>Dedupe, ranking, clustering, data gaps</td></tr>
+    <tr><td>3</td><td>Sinkhole emergency + DIY + off-topic</td><td>Safety first, scope</td></tr>
+    <tr><td>4</td><td>Sesotho-speaking resident (Bloemfontein)</td><td>Language, vulnerable-location scoring</td></tr>
+    <tr><td>5</td><td>Prompt injection, theft, personal data</td><td>Guardrails, POPIA</td></tr>
+  </table></div>
+
+  <h2>Security &amp; POPIA</h2>
+  <div class="grid">
+    <div class="card"><h3><span class="check">✓</span> Guardrails</h3><p>Top-priority rules in the prompt plus a code filter that blocks prompt injection and unsafe requests before they reach Gemini.</p></div>
+    <div class="card"><h3><span class="check">✓</span> No exposed keys</h3><p>The key is read only from an environment variable. An automated scan runs on every push. No client-side code.</p></div>
+    <div class="card"><h3><span class="check">✓</span> POPIA</h3><p>Anonymous by default, contact details only with consent, other people's details removed, nothing stored.</p></div>
+  </div>
+</main>
+
+<footer class="wrap">
+  Built by Kananelo Mofokeng for the GDG Johannesburg Buildathon · <a href="https://github.com/Kananelodev/road_watchSA">GitHub</a>
+</footer>
+</body>
+</html>

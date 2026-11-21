@@ -6,6 +6,9 @@ Usage:
     python run_scenarios.py          # runs all scenarios
     python run_scenarios.py 3        # runs scenario 3 only
     python run_scenarios.py --ground # adds Google Search grounding (optional extra)
+    python run_scenarios.py --json   # structured output using schema/roadwatch_response_schema.json
+
+The system instructions are sent together with the reference/*.json files.
 
 Every user turn goes through guardrails.check_input() before reaching Gemini,
 and every reply goes through guardrails.check_output().
@@ -14,13 +17,15 @@ Transcripts are written to test_results/scenario_<n>.md
 """
 
 import os
-import re
 import sys
 from pathlib import Path
 
 from google import genai
 from google.genai import types
 
+import json
+
+from build_ai_studio import full_prompt
 from guardrails import check_input, check_output
 
 ROOT = Path(__file__).parent
@@ -69,14 +74,14 @@ SCENARIOS = {
 }
 
 
-def load_system_instructions() -> str:
-    text = (ROOT / "system_instructions.md").read_text(encoding="utf-8")
-    # Everything after the first horizontal rule is the actual prompt.
-    return re.split(r"^---\s*$", text, maxsplit=1, flags=re.M)[-1].strip()
+SCHEMA = json.loads((ROOT / "schema" / "roadwatch_response_schema.json").read_text(encoding="utf-8"))
 
 
-def run(n: int, client: genai.Client, system: str, ground: bool = False) -> None:
+def run(n: int, client: genai.Client, system: str, ground: bool = False, structured: bool = False) -> None:
     config = types.GenerateContentConfig(system_instruction=system, temperature=0.4)
+    if structured:
+        config.response_mime_type = "application/json"
+        config.response_schema = SCHEMA
     if ground:
         config.tools = [types.Tool(google_search=types.GoogleSearch())]
     chat = client.chats.create(model=MODEL, config=config)
@@ -103,12 +108,16 @@ def run(n: int, client: genai.Client, system: str, ground: bool = False) -> None
 
 def main() -> None:
     client = genai.Client()  # reads GEMINI_API_KEY
-    system = load_system_instructions()
+    system = full_prompt()
     args = sys.argv[1:]
     ground = "--ground" in args
+    structured = "--json" in args
+    if ground and structured:
+        print("Note: some models don't allow search grounding and JSON schema together; "
+              "if you get an error, run them separately.")
     picks = [int(a) for a in args if a.isdigit()] or sorted(SCENARIOS)
     for n in picks:
-        run(n, client, system, ground)
+        run(n, client, system, ground, structured)
 
 
 if __name__ == "__main__":
