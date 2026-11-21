@@ -81,7 +81,7 @@ Transcripts are saved to `test_results/`.
 5. Click **Save**, name it `RoadWatch SA`.
 6. **Share** → General access: **Anyone with the link** → Viewer → **Copy link**, and paste it below.
 
-**AI Studio prompt link:** _add after saving_
+**Live agent (Google AI Studio):** https://ai.studio/apps/7a375b98-fb15-4b81-9362-656c85814827
 
 **Public project page (no login):** https://kananelodev.github.io/road_watchSA/
 
